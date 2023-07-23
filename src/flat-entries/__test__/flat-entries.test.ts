@@ -1,4 +1,4 @@
-import { flatEntries } from './flat-entries';
+import { flatEntries } from '../flat-entries';
 
 describe('flatEntries', () => {
   const someFunction = (x: unknown) => x;
