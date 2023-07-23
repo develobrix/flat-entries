@@ -8,10 +8,12 @@
     "flat-entries",
     "Object.entries",
     "Object.fromEntries",
+    "flatEntries",
+    "fromFlatEntries",
     "object",
     "array",
+    "list",
     "nested",
-    "flat",
     "flatten",
     "deep",
     "Typescript"
