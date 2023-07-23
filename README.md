@@ -15,7 +15,7 @@ The package provides two functions `flatEntries` and `fromFlatEntries`:
 
 ### `flatEntries`
 
-It's actually similar to well known `Object.entries`, so let's compare that to `flatEntries`:
+It's actually similar to well-known `Object.entries`, so let's compare them:
 
 ```javascript
 import { flatEntries } from 'flat-entries';
@@ -37,7 +37,7 @@ const entries = Object.entries(obj);
  */
 
 // ♭🎵 flatEntries flattens all nested object values:
-const flatEntries = flatEntries(obj);
+const flattenedEntries = flatEntries(obj);
 /**
  * [
  *   [['prop'],           'value'       ],
@@ -52,9 +52,9 @@ Use your favorite array manipulation functions like `map`, `filter` etc. to proc
 them back into a multi-layer object again or create one from scratch, you can use `fromFlatEntries`:
 
 ```javascript
-import { fromFlatEntries } from 'flat-entries';
+import { flatEntries, fromFlatEntries } from 'flat-entries';
 
-const oldObj = {
+const obj = {
   prop: 1,
   nested: {
     prop: 2,
@@ -83,7 +83,7 @@ const newObj = fromFlatEntries(updatedEntries);
 
 ## ✨ Key features
 
-- 🔄 **two-way** conversion with `flatEntries` and `fromFlatEntries`, where `flatEntries` is strictly **inverted** by `fromFlatEntries`, i.e. `fromFlatEntries(flatEntries(obj)) === obj`
+- 🔄 **two-way** conversion with `flatEntries` being strictly **inverted** by `fromFlatEntries`
 - 💾 all non-object values are **preserved**, including `undefined`, `null`, arrays and even functions
 - 🔒 also works with **class instances** with private members
 - 🪶 super **lightweight**, no peer dependencies
