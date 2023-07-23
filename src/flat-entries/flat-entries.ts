@@ -2,7 +2,7 @@ import { FlatEntry, FlatValue, isObjectValue, ObjectValue } from '../model';
 
 export const flatEntries = (obj: object): FlatEntry[] => {
   if (!isObjectValue(obj))
-    throw new Error('input object for flatEntries must be non-null non-array object');
+    throw new Error('input for flatEntries must be non-null non-array object');
 
   return flattenEntriesRecursively(obj);
 };
