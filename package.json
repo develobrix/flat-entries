@@ -2,6 +2,20 @@
   "name": "flat-entries",
   "version": "1.0.0",
   "license": "MIT",
+  "keywords": [
+    "flat",
+    "entries",
+    "flat-entries",
+    "Object.entries",
+    "Object.fromEntries",
+    "object",
+    "array",
+    "nested",
+    "flat",
+    "flatten",
+    "deep",
+    "Typescript"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/develobrix/flat-entries"
