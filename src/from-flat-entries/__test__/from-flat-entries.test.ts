@@ -20,17 +20,13 @@ describe('fromFlatEntries', () => {
     [
       'is empty',
       [
-        [
-          [],
-          'never',
-        ],
+        [[], 'never'],
       ],
     ],
     [
       'contains non-string values',
       [
-        [42],
-        'never',
+        [[42], 'never'],
       ],
     ],
   ])('throws an error if flat entry key list %s', (_, input) => {
@@ -45,10 +41,7 @@ describe('fromFlatEntries', () => {
     [
       'undefined',
       [
-        [
-          ['prop'],
-          undefined,
-        ],
+        [['prop'], undefined],
       ],
       {
         prop: undefined,
@@ -57,10 +50,7 @@ describe('fromFlatEntries', () => {
     [
       'null',
       [
-        [
-          ['prop'],
-          null,
-        ],
+        [['prop'], null],
       ],
       {
         prop: null,
@@ -69,10 +59,7 @@ describe('fromFlatEntries', () => {
     [
       'boolean',
       [
-        [
-          ['prop'],
-          true,
-        ],
+        [['prop'], true],
       ],
       {
         prop: true,
@@ -81,10 +68,7 @@ describe('fromFlatEntries', () => {
     [
       'string',
       [
-        [
-          ['prop'],
-          'some string',
-        ],
+        [['prop'], 'some string'],
       ],
       {
         prop: 'some string',
@@ -93,10 +77,7 @@ describe('fromFlatEntries', () => {
     [
       'number',
       [
-        [
-          ['prop'],
-          23,
-        ],
+        [['prop'], 23],
       ],
       {
         prop: 23,
@@ -105,10 +86,7 @@ describe('fromFlatEntries', () => {
     [
       'array',
       [
-        [
-          ['prop'],
-          ['some string', 23],
-        ],
+        [['prop'], ['some string', 23]],
       ],
       {
         prop: ['some string', 23],
@@ -117,10 +95,7 @@ describe('fromFlatEntries', () => {
     [
       'array of objects',
       [
-        [
-          ['prop'],
-          [{ should: 'stay object' }],
-        ],
+        [['prop'], [{ should: 'stay object' }]],
       ],
       {
         prop: [{ should: 'stay object' }],
@@ -128,10 +103,7 @@ describe('fromFlatEntries', () => {
     ],
     ['function',
       [
-        [
-          ['prop'],
-          someFunction,
-        ],
+        [['prop'], someFunction],
       ],
       {
         prop: someFunction,
@@ -143,10 +115,7 @@ describe('fromFlatEntries', () => {
 
   it('creates object with 2 layers correctly', () => {
     const input = [
-      [
-        ['layer1', 'layer2'],
-        'some string',
-      ],
+      [['layer1', 'layer2'], 'some string'],
     ];
     const expectedOutput = {
       layer1: {
@@ -158,10 +127,7 @@ describe('fromFlatEntries', () => {
 
   it('creates object with numeric keys correctly', () => {
     const input = [
-      [
-        ['1'],
-        2,
-      ],
+      [['1'], 2],
     ];
     const expectedOutput = {
       1: 2,
@@ -171,34 +137,13 @@ describe('fromFlatEntries', () => {
 
   it('creates complex object with multiple properties correctly', () => {
     const input = [
-      [
-        ['empty'],
-        undefined,
-      ],
-      [
-        ['oneLayer'],
-        23,
-      ],
-      [
-        ['secondLayer', 'null'],
-        null,
-      ],
-      [
-        ['secondLayer', 'boolean'],
-        true,
-      ],
-      [
-        ['secondLayer', 'array'],
-        [23],
-      ],
-      [
-        ['secondLayer', 'function'],
-        someFunction,
-      ],
-      [
-        ['deeply', 'deeply', 'nested', 'object'],
-        'value',
-      ],
+      [['empty'], undefined],
+      [['oneLayer'], 23],
+      [['secondLayer', 'null'], null],
+      [['secondLayer', 'boolean'], true],
+      [['secondLayer', 'array'], [23]],
+      [['secondLayer', 'function'], someFunction],
+      [['deeply', 'deeply', 'nested', 'object'], 'value'],
     ];
     const expectedOutput = {
       empty: undefined,
@@ -222,30 +167,12 @@ describe('fromFlatEntries', () => {
 
   it('overwrites duplicate entries with the same key and keeps the last one', () => {
     const input = [
-      [
-        ['only', 'simple'],
-        'overwrite',
-      ],
-      [
-        ['only', 'simple'],
-        'keep',
-      ],
-      [
-        ['object', 'to', 'simple', 'another', 'layer'],
-        'overwrite another layer object',
-      ],
-      [
-        ['object', 'to', 'simple'],
-        'keep simple value',
-      ],
-      [
-        ['simple', 'to', 'object'],
-        'overwrite simple value',
-      ],
-      [
-        ['simple', 'to', 'object', 'another', 'layer'],
-        'keep another layer object',
-      ],
+      [['only', 'simple'], 'overwrite'],
+      [['only', 'simple'], 'keep'],
+      [['object', 'to', 'simple', 'another', 'layer'], 'overwrite another layer object'],
+      [['object', 'to', 'simple'], 'keep simple value'],
+      [['simple', 'to', 'object'], 'overwrite simple value'],
+      [['simple', 'to', 'object', 'another', 'layer'], 'keep another layer object'],
     ];
     const expectedOutput = {
       only: {
@@ -271,14 +198,23 @@ describe('fromFlatEntries', () => {
 
   it('keeps empty strings as key layers', () => {
     const input = [
-      [
-        ['', ''],
-        'value',
-      ],
+      [['', ''], 'value'],
     ];
     const expectedOutput = {
       '': {
         '': 'value',
+      },
+    };
+    expect(fromFlatEntries(input)).toEqual(expectedOutput);
+  });
+
+  it('keeps object values', () => {
+    const input = [
+      [['prop'], { object: 'value' }],
+    ];
+    const expectedOutput = {
+      prop: {
+        object: 'value',
       },
     };
     expect(fromFlatEntries(input)).toEqual(expectedOutput);

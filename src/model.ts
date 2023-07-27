@@ -7,7 +7,7 @@ export type ObjectValue = {
 
 export type FlatEntry = [
   string[],
-  FlatValue,
+  ObjectValue | FlatValue,
 ];
 
 export const isObjectValue = (value: unknown): value is ObjectValue =>
