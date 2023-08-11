@@ -1,7 +1,7 @@
 # flat-entries
 
-This npm package provides a simple, lightweight and robust way to convert an object into a **flat list of all its
-non-object entries**.
+This package provides a simple, lightweight and robust way to convert an object to a flat list of all its non-object
+entries - and of course back to an object.
 
 ```bash
 npm install flat-entries
@@ -13,7 +13,7 @@ The package provides the two functions `flatEntries` and `fromFlatEntries`:
 
 ### ⏩ `flatEntries`
 
-Basically, it's is similar to the well-known `Object.entries`, so let's compare their outputs:
+You can use it anywhere you would use `Object.entries`, but the outputs are slightly different:
 
 ```javascript
 import { flatEntries } from 'flat-entries';
@@ -45,38 +45,6 @@ const flattenedEntries = flatEntries(obj);
 ```
 
 The returned entries always consist of an **array of keys** (= layers of the object) and the **flat value**.
-
-#### ⚙️ Options
-
-You can pass an options object as the second parameter to `flatEntries`:
-
-| option                  | value                              | default | effect                                                                                                           |
-|-------------------------|------------------------------------|---------|------------------------------------------------------------------------------------------------------------------|
-| `preserveValuesForKeys` | `string[]`<br/>list of object keys | `[]`    | object values at the specified keys will be preserved, i.e. not be flattened (regardless of layer in the object) |
-
-```javascript
-const obj = {
-  flatten: {
-    this: 'object'
-  },
-  but: {
-    keep: {
-      this: 'one'
-    },
-  },
-};
-
-const flattenedEntries = flatEntries(
-  obj, 
-  { preserveValuesForKeys: ['keep'] }
-);
-/**
- * [
- *   [['flatten', 'this'], 'object'       ],
- *   [['but', 'keep'],     { this: 'one' }],
- * ]
- */
-```
 
 ### ⏪ `fromFlatEntries`
 
@@ -114,15 +82,47 @@ const newObj = fromFlatEntries(updatedEntries);
  */
 ```
 
+### ⚙️ Options
+
+You can pass an options object as the second parameter to `flatEntries`:
+
+| option                  | value                              | default | effect                                                                                                           |
+|-------------------------|------------------------------------|---------|------------------------------------------------------------------------------------------------------------------|
+| `preserveValuesForKeys` | `string[]`<br/>list of object keys | `[]`    | object values at the specified keys will be preserved, i.e. not be flattened (regardless of layer in the object) |
+
+```javascript
+import { flatEntries } from 'flat-entries';
+
+const obj = {
+  flatten: {
+    but: {
+      keep: {
+        this: 'object'
+      },
+    },
+  },
+};
+
+const flattenedEntries = flatEntries(obj, { 
+  preserveValuesForKeys: ['keep'],
+});
+/**
+ * [
+ *   [['flatten', 'but', 'keep'], { this: 'object' }],
+ * ]
+ */
+```
+
 ## ✨ Key features
 
 - 🔄 **two-way** conversion, where `flatEntries` is **inverted** by `fromFlatEntries`
 - 💾 all non-object values are **preserved**, including `undefined`, `null`, arrays and even functions
 - 🔒 also works with **class instances** with private members
 - 🪶 super **lightweight**, no peer dependencies
-- ✅ **fully typed** when used with Typescript
+- ✅ **fully typed** when used with Typescript - comes with a `FlatEntry<T>` type for the flat entries
 
 ## 📖 Changelog
 
 - 2023/07/23 `[1.0.0]` initial release of `flatEntries` and `fromFlatEntries`
 - 2023/07/27 `[1.1.0]` add `preserveValuesForKeys` option
+- 2023/08/11 `[1.2.0]` add JSDoc and remove some type noise

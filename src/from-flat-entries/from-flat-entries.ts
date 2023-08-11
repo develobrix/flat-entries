@@ -1,11 +1,30 @@
-import { FlatEntry, FlatValue, isObjectValue, ObjectValue } from '../model';
+import { FlatEntry, isObjectValue } from '../model';
 
-export const fromFlatEntries = (entries: (string[] | ObjectValue | FlatValue)[][]): ObjectValue => {
+/**
+ * Converts a list of flat entries back to a nested object.
+ * This reverses {@link flatEntries} - see there for the needed entry format.
+ *
+ * @example
+ * // calling
+ * fromFlatEntries([
+ *   [['nested', 'prop'], 'value']
+ * ]);
+ * // returns
+ * {
+ *   nested: {
+ *     prop: 'value',
+ *   },
+ * }
+ *
+ * @param entries `[[string[], unknown][]` list of flat entries
+ * @returns object created from the flat entries
+ */
+export const fromFlatEntries = <E extends [string[], unknown][] | (string | unknown)[][]>(entries: E): object => {
   if (!isFlatEntryList(entries))
     throw new Error('input for fromFlatEntries from must be array of flat entries');
 
-  return entries.reduce<ObjectValue>(
-    (resultObject: ObjectValue, [keyLayers, value]: FlatEntry) =>
+  return entries.reduce<object>(
+    (resultObject: object, [keyLayers, value]: FlatEntry) =>
       insertRecursively(
         resultObject,
         keyLayers,
@@ -26,10 +45,10 @@ const isFlatEntry = (entry: unknown): entry is FlatEntry =>
   && entry[0].every(entry => typeof entry === 'string');
 
 const insertRecursively = (
-  obj: ObjectValue,
+  obj: object,
   keyLayers: string[],
-  value: ObjectValue | FlatValue,
-): ObjectValue => {
+  value: unknown,
+): object => {
   const key = keyLayers[0];
 
   return {
@@ -37,7 +56,8 @@ const insertRecursively = (
     [key]: keyLayers.length === 1
       ? value
       : insertRecursively(
-        key in obj && isObjectValue(obj[key]) ? <ObjectValue>obj[key] : {},
+        // @ts-ignore
+        key in obj && isObjectValue(obj[key]) ? obj[key] : {},
         keyLayers.slice(1),
         value,
       ),
