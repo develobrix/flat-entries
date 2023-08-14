@@ -126,3 +126,4 @@ const flattenedEntries = flatEntries(obj, {
 - 2023/07/23 `[1.0.0]` initial release of `flatEntries` and `fromFlatEntries`
 - 2023/07/27 `[1.1.0]` add `preserveValuesForKeys` option
 - 2023/08/11 `[1.2.0]` add JSDoc and remove some type noise
+- 2023/08/14 `[1.2.1]` fix re-export to enable top-level import of FlatEntry type
