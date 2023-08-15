@@ -2,10 +2,12 @@ import { FlatEntry, isObjectValue } from '../model';
 
 /**
  * Options for {@link flatEntries}
- *
- * - `preserveValuesForKeys`: list of keys, at which object values shall be preserved, i.e. not be further flattened (regardless of layer in the object)
  */
 export type FlatEntriesOptions = {
+  /**
+   * list of keys at which object values shall be preserved, i.e. not be further flattened (regardless of layer in the object)
+   * @default []
+   */
   preserveValuesForKeys: string[]
 }
 
